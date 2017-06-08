@@ -1,4 +1,6 @@
 import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,12 +31,20 @@ public class Main {
         WebElement elementPrice = driver.findElement(By.className("detail-price-uah"));
         System.out.println("priceValue="+elementPrice.getText());
 
+        testResult(elementReview,elementPrice);
 
-        TestCase.assertEquals("reviewCount must be equals 49", "50 отзывов", elementReview.getText());
-        TestCase.assertEquals("price must be equals 219", "219 грн", elementPrice.getText());
+
         driver.quit();
     }
 
+    @Test
+    private static void testResult(WebElement elementReview, WebElement elementPrice){
+        Assert.assertEquals("reviewCount must be equals 49", "50 отзывов", elementReview.getText());
+        Assert.assertEquals("price must be equals 219", "219 грн", elementPrice.getText());
+
+    }
+
+    @Test
     private static String searchPage() {
 
         driver.get("http:/rozetka.com.ua/");
@@ -50,6 +60,8 @@ public class Main {
                 return webDriver.getCurrentUrl() != null;
             }
         });
+        String strResponseURL = driver.getCurrentUrl();
+        Assert.assertEquals("http://rozetka.com.ua/captain_morgan_5000299223017/p4968858/",strResponseURL);
         return driver.getCurrentUrl();
     }
 }
